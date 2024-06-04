@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
+  "type": "module",
   "dependencies": {},
   "devDependencies": {
     "@nx/eslint": "19.1.2",
