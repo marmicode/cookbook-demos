@@ -11,5 +11,9 @@
     ],
     "sharedGlobals": []
   },
-  "plugins": ["@nx/eslint/plugin", "@nx/vite/plugin"]
+  "plugins": [
+    "@nx/eslint/plugin",
+    "@nx/vite/plugin",
+    "./tools/plugins/implicit-libs.ts"
+  ]
 }

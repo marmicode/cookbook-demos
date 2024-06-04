@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@marmicode/web-a": ["libs/web/a/src/index.ts"],
-      "@marmicode/web-b": ["libs/web/b/src/index.ts"]
+      "@marmicode/cart-ui": ["libs/web/cart-ui/index.ts"],
+      "@marmicode/catalog-ui": ["libs/web/catalog-ui/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
