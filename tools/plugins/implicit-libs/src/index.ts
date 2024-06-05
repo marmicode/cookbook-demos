@@ -11,7 +11,7 @@ export const createNodes: CreateNodes = [
       return {};
     }
 
-    const { libs, name, platform, scope, type } = getProjectInfo(projectPath);
+    const { name, platform, scope, type } = getProjectInfo(projectPath);
     const projectName = name ? `${name}-${type}` : type;
 
     const hasTests = await hasFileMatching(
@@ -25,52 +25,67 @@ export const createNodes: CreateNodes = [
           projectType: 'library',
           tags: [`platform:${platform}`, `scope:${scope}`, `type:${type}`],
           targets: {
-            lint: {
-              command: 'eslint .',
-              options: {
-                cwd: projectPath,
-              },
-              cache: true,
-              inputs: [
-                'default',
-                '^default',
-                '{workspaceRoot}/.eslintrc.json',
-                `{workspaceRoot}/${libs}/${platform}/.eslintrc.json`,
-                '{workspaceRoot}/tools/eslint-rules/**/*',
-                {
-                  externalDependencies: ['eslint'],
-                },
-              ],
-              outputs: ['{options.outputFile}'],
-            },
-            ...(hasTests
-              ? {
-                  test: {
-                    command: 'vitest',
-                    options: {
-                      cwd: projectPath,
-                      root: '.',
-                    },
-                    cache: true,
-                    inputs: [
-                      'default',
-                      '^production',
-                      {
-                        externalDependencies: ['vitest'],
-                      },
-                      {
-                        env: 'CI',
-                      },
-                    ],
-                    outputs: [
-                      `{workspaceRoot}/coverage/${libs}/${platform}/${scope}/${projectName}`,
-                    ],
-                  },
-                }
-              : {}),
+            ...createLintTarget(projectPath),
+            ...(hasTests ? createTestTarget(projectPath) : {}),
           },
         },
       },
     };
   },
 ];
+
+function createLintTarget(projectPath: string) {
+  let currentPath = join('{workspaceRoot}', projectPath);
+  let eslintConfigPaths = [];
+  while (currentPath !== '.') {
+    eslintConfigPaths = [
+      ...eslintConfigPaths,
+      join(currentPath, '.eslintrc.json'),
+    ];
+    currentPath = dirname(currentPath);
+  }
+
+  return {
+    lint: {
+      command: 'eslint .',
+      options: {
+        cwd: projectPath,
+      },
+      cache: true,
+      inputs: [
+        'default',
+        '^default',
+        ...eslintConfigPaths,
+        '{workspaceRoot}/tools/eslint-rules/**/*',
+        {
+          externalDependencies: ['eslint'],
+        },
+      ],
+      outputs: ['{options.outputFile}'],
+    },
+  };
+}
+
+function createTestTarget(projectPath: string) {
+  return {
+    test: {
+      command: 'vitest',
+      options: {
+        cwd: projectPath,
+        root: '.',
+      },
+      cache: true,
+      inputs: [
+        'default',
+        '^production',
+        {
+          externalDependencies: ['vitest'],
+        },
+        {
+          env: 'CI',
+        },
+      ],
+      outputs: [`{workspaceRoot}/coverage/${projectPath}`],
+    },
+  };
+}

@@ -50,7 +50,6 @@ describe(hasIndexInParentTree.name, () => {
 describe(getProjectInfo.name, () => {
   it('should compute platform, scope, name, and type', () => {
     expect(getProjectInfo('libs/web/catalog/search-ui')).toEqual({
-      libs: 'libs',
       platform: 'web',
       scope: 'catalog',
       name: 'search',
@@ -60,7 +59,6 @@ describe(getProjectInfo.name, () => {
 
   it('should compute platform, scope, and type if no name', () => {
     expect(getProjectInfo('libs/web/catalog/ui')).toEqual({
-      libs: 'libs',
       platform: 'web',
       scope: 'catalog',
       type: 'ui',

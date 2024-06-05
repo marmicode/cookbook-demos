@@ -30,7 +30,6 @@ export async function hasIndexInParentTree(
 }
 
 export function getProjectInfo(projectPath: string): {
-  libs: string;
   platform: string;
   scope: string;
   type: string;
@@ -41,7 +40,7 @@ export function getProjectInfo(projectPath: string): {
   if (parts.length !== 4) {
     throw new Error(`Invalid project path ${projectPath}`);
   }
-  const [libs, platform, scope, nameAndType] = parts;
+  const [platform, scope, nameAndType] = parts.slice(-3);
   const nameAndTypeParts = nameAndType.split('-');
   const type = nameAndTypeParts.at(-1);
   const name = nameAndTypeParts.length > 1 ? nameAndTypeParts[0] : undefined;
@@ -53,7 +52,6 @@ export function getProjectInfo(projectPath: string): {
   }
 
   return {
-    libs,
     name,
     platform,
     scope,
