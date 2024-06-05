@@ -1,25 +1,34 @@
 import { CreateNodes } from '@nx/devkit';
+import { dirname, join } from 'node:path';
+import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 
 export const createNodes: CreateNodes = [
-  'libs/*/*/*/index.ts',
-  (indexPath: string) => {
-    const [libs, platform, scope, name] = indexPath.split('/');
-    const projectRoot = `${libs}/${platform}/${scope}/${name}`;
-    const projectName = `${platform}-${scope}-${name}`;
-    const nameParts = name.split('-');
-    const type = nameParts.at(-1);
+  'libs/**/index.ts',
+  async (indexFilePath: string, _, { workspaceRoot }) => {
+    const projectPath = dirname(indexFilePath);
+
+    if (await hasIndexInParentTree(join(workspaceRoot, indexFilePath))) {
+      return {};
+    }
+
+    const { libs, name, platform, scope, type } = getProjectInfo(projectPath);
+    const projectName = name ? `${name}-${type}` : type;
+
+    const hasTests = await hasFileMatching(
+      join(workspaceRoot, projectPath, '**/*.spec.ts')
+    );
 
     return {
       projects: {
-        [projectName]: {
-          name: projectName,
-          root: projectRoot,
+        [projectPath]: {
+          name: `${platform}-${scope}-${projectName}`,
+          projectType: 'library',
           tags: [`platform:${platform}`, `scope:${scope}`, `type:${type}`],
           targets: {
             lint: {
               command: 'eslint .',
               options: {
-                cwd: projectRoot,
+                cwd: projectPath,
               },
               cache: true,
               inputs: [
@@ -34,25 +43,31 @@ export const createNodes: CreateNodes = [
               ],
               outputs: ['{options.outputFile}'],
             },
-            test: {
-              command: 'vitest',
-              options: {
-                cwd: projectRoot,
-                root: '.',
-              },
-              cache: true,
-              inputs: [
-                'default',
-                '^production',
-                {
-                  externalDependencies: ['vitest'],
-                },
-                {
-                  env: 'CI',
-                },
-              ],
-              outputs: [`{workspaceRoot}/coverage/${libs}/${platform}/${name}`],
-            },
+            ...(hasTests
+              ? {
+                  test: {
+                    command: 'vitest',
+                    options: {
+                      cwd: projectPath,
+                      root: '.',
+                    },
+                    cache: true,
+                    inputs: [
+                      'default',
+                      '^production',
+                      {
+                        externalDependencies: ['vitest'],
+                      },
+                      {
+                        env: 'CI',
+                      },
+                    ],
+                    outputs: [
+                      `{workspaceRoot}/coverage/${libs}/${platform}/${scope}/${projectName}`,
+                    ],
+                  },
+                }
+              : {}),
           },
         },
       },
