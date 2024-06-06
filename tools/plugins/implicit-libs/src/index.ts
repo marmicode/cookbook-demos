@@ -9,32 +9,17 @@ import { Optional } from 'nx/src/project-graph/plugins';
 
 export const createNodesV2: CreateNodesV2 = [
   'libs/**/index.ts',
-  async (
-    indexFilePaths,
-    _,
-    { workspaceRoot }
-  ): Promise<CreateNodesResultV2> => {
+  async (indexPaths, _, { workspaceRoot }): Promise<CreateNodesResultV2> => {
     const results = await Promise.all(
-      indexFilePaths.map(async (indexFilePath) => {
-        const projectPath = dirname(indexFilePath);
-        const projectConfiguration = await createImplicitLibProjectConfig(
-          projectPath,
-          { workspaceRoot }
-        );
-        return projectConfiguration
-          ? {
-              indexFilePath,
-              projectPath,
-              projectConfiguration,
-            }
-          : undefined;
-      })
+      indexPaths.map((indexFilePath) =>
+        createImplicitLibProjectConfig(indexFilePath, { workspaceRoot })
+      )
     );
 
     return results
       .filter(isDefined)
-      .map(({ indexFilePath, projectConfiguration, projectPath }) => [
-        indexFilePath,
+      .map(({ indexPath, projectConfiguration, projectPath }) => [
+        indexPath,
         {
           projects: {
             [projectPath]: projectConfiguration,
@@ -44,14 +29,11 @@ export const createNodesV2: CreateNodesV2 = [
   },
 ];
 
-function isDefined<T>(value: T | undefined): value is T {
-  return value !== undefined;
-}
-
 async function createImplicitLibProjectConfig(
-  projectPath: string,
+  indexPath: string,
   { workspaceRoot }: { workspaceRoot: string }
-): Promise<Optional<ProjectConfiguration, 'root'> | undefined> {
+) {
+  const projectPath = dirname(indexPath);
   const projectRoot = join(workspaceRoot, projectPath);
   if (await hasIndexInParentTree(projectRoot)) {
     return;
@@ -61,13 +43,17 @@ async function createImplicitLibProjectConfig(
   const projectName = name ? `${name}-${type}` : type;
   const hasTests = await hasFileMatching(join(projectRoot, '**/*.spec.ts'));
   return {
-    name: `${platform}-${scope}-${projectName}`,
-    projectType: 'library',
-    tags: [`platform:${platform}`, `scope:${scope}`, `type:${type}`],
-    targets: {
-      ...createLintTarget(projectPath),
-      ...(hasTests ? createTestTarget(projectPath) : {}),
-    },
+    indexPath,
+    projectPath,
+    projectConfiguration: {
+      name: `${platform}-${scope}-${projectName}`,
+      projectType: 'library',
+      tags: [`platform:${platform}`, `scope:${scope}`, `type:${type}`],
+      targets: {
+        ...createLintTarget(projectPath),
+        ...(hasTests ? createTestTarget(projectPath) : {}),
+      },
+    } satisfies Optional<ProjectConfiguration, 'root'>,
   };
 }
 
@@ -125,4 +111,8 @@ function createTestTarget(projectPath: string) {
       outputs: [`{workspaceRoot}/coverage/${projectPath}`],
     },
   };
+}
+
+function isDefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
 }
