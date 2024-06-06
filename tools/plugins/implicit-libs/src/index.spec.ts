@@ -1,8 +1,8 @@
-import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { createNodes } from './index';
 import { glob } from 'glob';
+import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { createNodesV2 } from './index';
 
 describe('implicit-libs', () => {
   it('should match projects in `libs`', async () => {
@@ -10,7 +10,7 @@ describe('implicit-libs', () => {
 
     await writeEmptyFile('libs/web/catalog/search-ui/index.ts');
 
-    expect(await glob(`${workspaceRoot}/${createNodes[0]}`)).toEqual([
+    expect(await glob(`${workspaceRoot}/${createNodesV2[0]}`)).toEqual([
       expect.stringContaining('libs/web/catalog/search-ui/index.ts'),
     ]);
   });
@@ -20,22 +20,26 @@ describe('implicit-libs', () => {
 
     await writeEmptyFile('apps/web/catalog/search-ui/index.ts');
 
-    expect(await glob(`${workspaceRoot}/${createNodes[0]}`)).toEqual([]);
+    expect(await glob(`${workspaceRoot}/${createNodesV2[0]}`)).toEqual([]);
   });
 
   it('should infer project info from the project path', async () => {
     const { runCreateNodes } = await setUpWithLibrary();
 
-    const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
+    const results = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
 
-    expect(result).toMatchObject({
-      projects: {
-        'libs/web/catalog/search-ui': {
-          name: 'web-catalog-search-ui',
-          projectType: 'library',
+    expect.soft(results).toHaveLength(1);
+    expect.soft(results[0]).toMatchObject([
+      'libs/web/catalog/search-ui/index.ts',
+      {
+        projects: {
+          'libs/web/catalog/search-ui': {
+            name: 'web-catalog-search-ui',
+            projectType: 'library',
+          },
         },
       },
-    });
+    ]);
   });
 
   it('should infer project info from the project path without name', async () => {
@@ -43,9 +47,11 @@ describe('implicit-libs', () => {
 
     await writeEmptyFile('libs/web/catalog/ui/index.ts');
 
-    const result = await runCreateNodes('libs/web/catalog/ui/index.ts');
+    const [[_, projectConfiguration]] = await runCreateNodes(
+      'libs/web/catalog/ui/index.ts'
+    );
 
-    expect(result).toMatchObject({
+    expect(projectConfiguration).toMatchObject({
       projects: {
         'libs/web/catalog/ui': {
           name: 'web-catalog-ui',
@@ -57,9 +63,11 @@ describe('implicit-libs', () => {
   it('should infer tags from the project path', async () => {
     const { runCreateNodes } = await setUpWithLibrary();
 
-    const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
+    const [[_, projectConfiguration]] = await runCreateNodes(
+      'libs/web/catalog/search-ui/index.ts'
+    );
 
-    expect(result).toMatchObject({
+    expect(projectConfiguration).toMatchObject({
       projects: {
         'libs/web/catalog/search-ui': {
           tags: ['platform:web', 'scope:catalog', 'type:ui'],
@@ -75,15 +83,17 @@ describe('implicit-libs', () => {
 
     const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
 
-    expect(result).toEqual({});
+    expect(result).toEqual([]);
   });
 
   it('should infer lint target', async () => {
     const { runCreateNodes } = await setUpWithLibrary();
 
-    const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
+    const [[_, projectConfiguration]] = await runCreateNodes(
+      'libs/web/catalog/search-ui/index.ts'
+    );
 
-    expect(result).toMatchObject({
+    expect(projectConfiguration).toMatchObject({
       projects: {
         'libs/web/catalog/search-ui': {
           targets: {
@@ -119,9 +129,11 @@ describe('implicit-libs', () => {
 
     await writeEmptyFile('libs/web/catalog/search-ui/index.spec.ts');
 
-    const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
+    const [[_, projectConfiguration]] = await runCreateNodes(
+      'libs/web/catalog/search-ui/index.ts'
+    );
 
-    expect(result).toMatchObject({
+    expect(projectConfiguration).toMatchObject({
       projects: {
         'libs/web/catalog/search-ui': {
           targets: {
@@ -153,10 +165,13 @@ describe('implicit-libs', () => {
   it('should not infer test target if there are no tests', async () => {
     const { runCreateNodes } = await setUpWithLibrary();
 
-    const result = await runCreateNodes('libs/web/catalog/search-ui/index.ts');
+    const [[_, projectConfiguration]] = await runCreateNodes(
+      'libs/web/catalog/search-ui/index.ts'
+    );
 
     expect(
-      result.projects['libs/web/catalog/search-ui'].targets.test
+      projectConfiguration.projects?.['libs/web/catalog/search-ui'].targets
+        ?.test
     ).toBeUndefined();
   });
 });
@@ -174,11 +189,10 @@ async function setUp() {
 
   return {
     async runCreateNodes(filePath: string) {
-      return createNodes[1](
-        filePath,
+      return createNodesV2[1](
+        [filePath],
         {},
         {
-          configFiles: [],
           nxJsonConfiguration: {},
           workspaceRoot,
         }

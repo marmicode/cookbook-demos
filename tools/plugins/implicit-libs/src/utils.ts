@@ -7,9 +7,8 @@ import { globIterate } from 'glob';
  * This is useful to exclude folders with `index.ts` which are inside other libs.
  */
 export async function hasIndexInParentTree(
-  indexPath: string
+  folderPath: string
 ): Promise<boolean> {
-  let folderPath = dirname(indexPath);
   let previousFolderPath: string;
 
   do {

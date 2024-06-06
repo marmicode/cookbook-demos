@@ -9,9 +9,7 @@ describe(hasIndexInParentTree.name, () => {
     await writeFile(`${rootPath}/libs/web/catalog/index.ts`, '');
 
     expect(
-      await hasIndexInParentTree(
-        `${rootPath}/libs/web/catalog/search-ui/index.ts`
-      )
+      await hasIndexInParentTree(`${rootPath}/libs/web/catalog/search-ui`)
     ).toBe(true);
   });
 
@@ -20,18 +18,14 @@ describe(hasIndexInParentTree.name, () => {
     await writeFile(`${rootPath}/libs/web/index.ts`, '');
 
     expect(
-      await hasIndexInParentTree(
-        `${rootPath}/libs/web/catalog/search-ui/index.ts`
-      )
+      await hasIndexInParentTree(`${rootPath}/libs/web/catalog/search-ui`)
     ).toBe(true);
   });
 
   it('should return false if no parent folder has an index.ts', async () => {
     const { rootPath } = await setUp();
     expect(
-      await hasIndexInParentTree(
-        `${rootPath}/libs/web/catalog/search-ui/index.ts`
-      )
+      await hasIndexInParentTree(`${rootPath}/libs/web/catalog/search-ui`)
     ).toBe(false);
   });
 
