@@ -12,7 +12,10 @@
     "sharedGlobals": []
   },
   "plugins": [
-    "@nx/eslint/plugin",
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {}
+    },
     "@nx/vite/plugin",
     "./tools/plugins/implicit-libs/src/index.ts"
   ]
