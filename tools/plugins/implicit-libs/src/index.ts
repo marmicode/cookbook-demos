@@ -9,10 +9,10 @@ import { Optional } from 'nx/src/project-graph/plugins';
 
 export const createNodesV2: CreateNodesV2 = [
   'libs/**/index.ts',
-  async (indexPaths, _, { workspaceRoot }): Promise<CreateNodesResultV2> => {
+  async (indexPathList, _, { workspaceRoot }): Promise<CreateNodesResultV2> => {
     const results = await Promise.all(
-      indexPaths.map((indexFilePath) =>
-        createImplicitLibProjectConfig(indexFilePath, { workspaceRoot })
+      indexPathList.map((indexPath) =>
+        createImplicitLibProjectConfig(indexPath, { workspaceRoot })
       )
     );
 
