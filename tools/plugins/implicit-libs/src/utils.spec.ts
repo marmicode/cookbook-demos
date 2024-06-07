@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
+import { logger } from '@nx/devkit';
 
 describe(hasIndexInParentTree.name, () => {
   it('should return true if direct parent folder has index.ts', async () => {
@@ -60,23 +61,39 @@ describe(getProjectInfo.name, () => {
   });
 
   it.each(['libs/my-lib', `libs/web/my-lib`])(
-    'should throw an error if lib is too shallow: %s',
+    'should return undefined if lib is too shallow: %s',
     (libPath) => {
-      expect(() => getProjectInfo(libPath)).toThrow('Invalid project path');
+      setUp();
+      expect(getProjectInfo(libPath)).toBeUndefined();
+      expect(logger.warn).toBeCalledWith(
+        expect.stringContaining('Invalid project path')
+      );
     }
   );
 
-  it('should throw an error if lib is too deep', () => {
-    expect(() => getProjectInfo('libs/too-deep/web/catalog/search-ui')).toThrow(
-      'Invalid project path'
+  it('should return undefined if lib is too deep', () => {
+    setUp();
+    expect(
+      getProjectInfo('libs/too-deep/web/catalog/search-ui')
+    ).toBeUndefined();
+    expect(logger.warn).toBeCalledWith(
+      expect.stringContaining('Invalid project path')
     );
   });
 
-  it("should throw if path doesn't end with a valid type", () => {
-    expect(() => getProjectInfo('libs/web/catalog/search')).toThrow(
-      'Invalid project path'
+  it("should return undefined if lib doesn't end with a valid type", () => {
+    setUp();
+    expect(getProjectInfo('libs/web/catalog/search')).toBeUndefined();
+    expect(logger.warn).toBeCalledWith(
+      expect.stringContaining(
+        'Invalid project path libs/web/catalog/search. Last folder should be one of the allowed types:'
+      )
     );
   });
+
+  function setUp() {
+    vi.spyOn(logger, 'warn').mockReturnValue(undefined);
+  }
 });
 
 describe(hasFileMatching.name, () => {
@@ -98,4 +115,8 @@ describe(hasFileMatching.name, () => {
       rootPath,
     };
   }
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });

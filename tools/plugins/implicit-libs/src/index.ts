@@ -39,7 +39,12 @@ async function createImplicitLibProjectConfig(
     return;
   }
 
-  const { name, platform, scope, type } = getProjectInfo(projectPath);
+  const projectInfo = getProjectInfo(projectPath);
+  if (projectInfo === undefined) {
+    return;
+  }
+
+  const { name, platform, scope, type } = projectInfo;
   const projectName = name ? `${name}-${type}` : type;
   const hasTests = await hasFileMatching(join(projectRoot, '**/*.spec.ts'));
   return {

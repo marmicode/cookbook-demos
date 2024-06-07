@@ -1,6 +1,7 @@
 import { stat } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { globIterate } from 'glob';
+import { logger } from '@nx/devkit';
 
 /**
  * Checks if there are `index.ts` files in parent folders.
@@ -32,16 +33,19 @@ export async function hasIndexInParentTree(
   return false;
 }
 
-export function getProjectInfo(projectPath: string): {
-  platform: string;
-  scope: string;
-  type: string;
-  name?: string;
-} {
+export function getProjectInfo(projectPath: string):
+  | {
+      platform: string;
+      scope: string;
+      type: string;
+      name?: string;
+    }
+  | undefined {
   const parts = projectPath.split('/');
 
   if (parts.length !== 4) {
-    throw new Error(`Invalid project path ${projectPath}`);
+    logger.warn(`Invalid project path ${projectPath}`);
+    return;
   }
   const [platform, scope, nameAndType] = parts.slice(-3);
   const nameAndTypeParts = nameAndType.split('-');
@@ -50,9 +54,10 @@ export function getProjectInfo(projectPath: string): {
   const name = nameAndTypeParts.length > 1 ? nameAndTypeParts[0] : undefined;
 
   if (!allowedLibraryTypes.includes(type)) {
-    throw new Error(
+    logger.warn(
       `Invalid project path ${projectPath}. Last folder should be one of the allowed types: ${allowedLibraryTypes}`
     );
+    return;
   }
 
   return {
