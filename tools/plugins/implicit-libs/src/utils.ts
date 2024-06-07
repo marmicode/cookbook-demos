@@ -18,7 +18,11 @@ export async function hasIndexInParentTree(
       await stat(join(folderPath, 'index.ts'));
       return true;
     } catch (error) {
-      if (error.code === 'ENOENT') {
+      if (
+        error instanceof Error &&
+        'code' in error &&
+        error.code === 'ENOENT'
+      ) {
         continue;
       }
       throw error;
