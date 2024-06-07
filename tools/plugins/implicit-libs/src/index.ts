@@ -4,8 +4,8 @@ import {
   ProjectConfiguration,
 } from '@nx/devkit';
 import { dirname, join } from 'node:path';
-import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 import { Optional } from 'nx/src/project-graph/plugins';
+import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 
 export const createNodesV2: CreateNodesV2 = [
   'libs/**/index.ts',
@@ -62,7 +62,9 @@ async function createImplicitLibProjectConfig(
   };
 }
 
-function createLintTarget(projectPath: string) {
+function createLintTarget(
+  projectPath: string
+): ProjectConfiguration['targets'] {
   let currentPath = join('{workspaceRoot}', projectPath);
   let eslintConfigPaths: string[] = [];
   while (currentPath !== '.') {
@@ -79,6 +81,9 @@ function createLintTarget(projectPath: string) {
       options: {
         cwd: projectPath,
       },
+      metadata: {
+        technologies: ['eslint'],
+      },
       cache: true,
       inputs: [
         'default',
@@ -94,13 +99,18 @@ function createLintTarget(projectPath: string) {
   };
 }
 
-function createTestTarget(projectPath: string) {
+function createTestTarget(
+  projectPath: string
+): ProjectConfiguration['targets'] {
   return {
     test: {
       command: 'vitest',
       options: {
         cwd: projectPath,
         root: '.',
+      },
+      metadata: {
+        technologies: ['vitest'],
       },
       cache: true,
       inputs: [
