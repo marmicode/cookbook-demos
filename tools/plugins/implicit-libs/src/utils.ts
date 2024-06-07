@@ -45,7 +45,8 @@ export function getProjectInfo(projectPath: string): {
   }
   const [platform, scope, nameAndType] = parts.slice(-3);
   const nameAndTypeParts = nameAndType.split('-');
-  const type = nameAndTypeParts.at(-1);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const type = nameAndTypeParts.at(-1)!;
   const name = nameAndTypeParts.length > 1 ? nameAndTypeParts[0] : undefined;
 
   if (!allowedLibraryTypes.includes(type)) {
