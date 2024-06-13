@@ -40,8 +40,55 @@ export default [
           allow: [],
           depConstraints: [
             {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
+              sourceTag: 'type:app',
+              onlyDependOnLibsWithTags: [
+                'type:feature',
+                'type:ui',
+                'type:domain',
+                'type:infra',
+                'type:model',
+                'type:util',
+              ],
+            },
+            {
+              sourceTag: 'type:feature',
+              onlyDependOnLibsWithTags: [
+                'type:feature',
+                'type:ui',
+                'type:domain',
+                'type:infra',
+                'type:model',
+                'type:util',
+              ],
+            },
+            {
+              sourceTag: 'type:ui',
+              onlyDependOnLibsWithTags: ['type:ui', 'type:model', 'type:util'],
+            },
+            {
+              sourceTag: 'type:domain',
+              onlyDependOnLibsWithTags: [
+                'type:domain',
+                'type:infra',
+                'type:model',
+                'type:util',
+              ],
+            },
+            {
+              sourceTag: 'type:infra',
+              onlyDependOnLibsWithTags: [
+                'type:infra',
+                'type:model',
+                'type:util',
+              ],
+            },
+            {
+              sourceTag: 'type:model',
+              onlyDependOnLibsWithTags: ['type:model', 'type:util'],
+            },
+            {
+              sourceTag: 'type:util',
+              onlyDependOnLibsWithTags: ['type:util'],
             },
           ],
         },
