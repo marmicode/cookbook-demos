@@ -70,7 +70,7 @@ function createLintTarget(
   while (currentPath !== '.') {
     eslintConfigPaths = [
       ...eslintConfigPaths,
-      join(currentPath, '.eslintrc.json'),
+      join(currentPath, 'eslint.config.js'),
     ];
     currentPath = dirname(currentPath);
   }

@@ -106,11 +106,11 @@ describe('implicit-libs', () => {
               inputs: [
                 'default',
                 '^default',
-                '{workspaceRoot}/libs/web/catalog/search-ui/.eslintrc.json',
-                '{workspaceRoot}/libs/web/catalog/.eslintrc.json',
-                '{workspaceRoot}/libs/web/.eslintrc.json',
-                '{workspaceRoot}/libs/.eslintrc.json',
-                '{workspaceRoot}/.eslintrc.json',
+                '{workspaceRoot}/libs/web/catalog/search-ui/eslint.config.js',
+                '{workspaceRoot}/libs/web/catalog/eslint.config.js',
+                '{workspaceRoot}/libs/web/eslint.config.js',
+                '{workspaceRoot}/libs/eslint.config.js',
+                '{workspaceRoot}/eslint.config.js',
                 '{workspaceRoot}/tools/eslint-rules/**/*',
                 {
                   externalDependencies: ['eslint'],
