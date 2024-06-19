@@ -60,6 +60,15 @@ describe(getProjectInfo.name, () => {
     });
   });
 
+  it('should compute name even if it contains dashes', () => {
+    expect(getProjectInfo('libs/web/catalog/my-lib-ui')).toEqual({
+      platform: 'web',
+      scope: 'catalog',
+      name: 'my-lib',
+      type: 'ui',
+    });
+  });
+
   it.each(['libs/my-lib', `libs/web/my-lib`])(
     'should return undefined if lib is too shallow: %s',
     (libPath) => {

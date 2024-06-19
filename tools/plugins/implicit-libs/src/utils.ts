@@ -51,7 +51,10 @@ export function getProjectInfo(projectPath: string):
   const nameAndTypeParts = nameAndType.split('-');
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const type = nameAndTypeParts.at(-1)!;
-  const name = nameAndTypeParts.length > 1 ? nameAndTypeParts[0] : undefined;
+  const name =
+    nameAndTypeParts.length > 1
+      ? nameAndTypeParts.slice(0, -1).join('-')
+      : undefined;
 
   if (!allowedLibraryTypes.includes(type)) {
     logger.warn(
