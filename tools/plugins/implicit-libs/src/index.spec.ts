@@ -36,6 +36,7 @@ describe('implicit-libs', () => {
           'libs/web/catalog/search-ui': {
             name: 'web-catalog-search-ui',
             projectType: 'library',
+            sourceRoot: 'libs/web/catalog/search-ui',
           },
         },
       },

@@ -52,6 +52,7 @@ async function createImplicitLibProjectConfig(
     projectPath,
     projectConfiguration: {
       name: `${platform}-${scope}-${projectName}`,
+      sourceRoot: projectPath,
       projectType: 'library',
       tags: [`platform:${platform}`, `scope:${scope}`, `type:${type}`],
       targets: {
