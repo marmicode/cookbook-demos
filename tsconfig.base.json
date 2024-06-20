@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@marmicode/implicit-libs": ["tools/plugins/implicit-libs/index.ts"],
       "@marmicode/web-cart-ui": ["libs/web/cart/ui/index.ts"],
       "@marmicode/web-catalog-ui": ["libs/web/catalog/ui/index.ts"]
     }

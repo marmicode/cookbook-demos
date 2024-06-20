@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "update-tsconfig-paths": {
+      "factory": "./src/generators/update-tsconfig-paths/generator",
+      "schema": "./src/generators/update-tsconfig-paths/schema.json",
+      "description": "Update tsconfig paths based with implicit libraries"
+    }
+  }
+}

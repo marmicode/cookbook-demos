@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "UpdateTsconfigPaths",
+  "title": "Update tsconfig.base.json's paths with implicit libraries",
+  "type": "object"
+}

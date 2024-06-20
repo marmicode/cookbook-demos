@@ -1,0 +1,9 @@
+{
+  "name": "@marmicode/implicit-libs",
+  "private": true,
+  "type": "module",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/devkit": "19.2.1"
+  }
+}
