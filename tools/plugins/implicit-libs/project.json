@@ -4,5 +4,26 @@
   "sourceRoot": "tools/plugins/implicit-libs/src",
   "projectType": "library",
   "tags": [],
-  "targets": {}
+  "targets": {
+    "lint": {
+      "// TODO": "remove this when this issue is fixed: https://github.com/nrwl/nx/issues/22576",
+      "command": "eslint .",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{projectRoot}/eslint.config.cjs",
+        "{workspaceRoot}/tools/eslint-rules/**/*",
+        {
+          "externalDependencies": [
+            "eslint"
+          ]
+        }
+      ],
+      "outputs": ["{options.outputFile}"]
+    }
+  }
 }

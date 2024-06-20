@@ -1,6 +1,6 @@
-import baseConfig from '../../eslint.config.js';
+const baseConfig = require('../../eslint.config.cjs');
 
-export default [
+module.exports = [
   ...baseConfig,
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
