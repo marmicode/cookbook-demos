@@ -3,7 +3,7 @@ import {
   CreateNodesV2,
   ProjectConfiguration,
 } from '@nx/devkit';
-import { dirname, join } from 'node:path';
+import { dirname, join } from 'node:path/posix';
 import { Optional } from 'nx/src/project-graph/plugins';
 import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 
@@ -46,7 +46,7 @@ async function createImplicitLibProjectConfig(
 
   const { name, platform, scope, type } = projectInfo;
   const projectName = name ? `${name}-${type}` : type;
-  const hasTests = await hasFileMatching(join(projectRoot, '**/*.spec.ts'));
+  const hasTests = await hasFileMatching(projectRoot, '**/*.spec.ts');
   return {
     indexPath,
     projectPath,

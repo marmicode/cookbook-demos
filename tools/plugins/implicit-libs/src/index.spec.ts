@@ -1,7 +1,7 @@
 import { glob } from 'glob';
 import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname, join } from 'node:path/posix';
 import { createNodesV2 } from './index';
 
 describe('implicit-libs', () => {
@@ -10,9 +10,12 @@ describe('implicit-libs', () => {
 
     await writeEmptyFile('libs/web/catalog/search-ui/index.ts');
 
-    expect(await glob(`${workspaceRoot}/${createNodesV2[0]}`)).toEqual([
-      expect.stringContaining('libs/web/catalog/search-ui/index.ts'),
-    ]);
+    expect(
+      await glob(createNodesV2[0], {
+        cwd: workspaceRoot,
+        posix: true,
+      })
+    ).toEqual([expect.stringContaining('libs/web/catalog/search-ui/index.ts')]);
   });
 
   it('should not match projects outside `libs`', async () => {

@@ -1,6 +1,6 @@
 import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join } from 'node:path/posix';
 import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 import { logger } from '@nx/devkit';
 
@@ -110,12 +110,12 @@ describe(hasFileMatching.name, () => {
     const { rootPath } = await setUp();
     await mkdir(`${rootPath}/lib`);
     await writeFile(`${rootPath}/lib/demo.spec.ts`, '');
-    expect(await hasFileMatching(`${rootPath}/**/*.spec.ts`)).toBe(true);
+    expect(await hasFileMatching(rootPath, '**/*.spec.ts')).toBe(true);
   });
 
   it('should return false if there is no file matching', async () => {
     const { rootPath } = await setUp();
-    expect(await hasFileMatching(`${rootPath}/**/*.spec.ts`)).toBe(false);
+    expect(await hasFileMatching(rootPath, '**/*.spec.ts')).toBe(false);
   });
 
   async function setUp() {

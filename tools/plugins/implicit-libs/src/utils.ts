@@ -1,5 +1,5 @@
 import { stat } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { dirname, join } from 'node:path/posix';
 import { globIterate } from 'glob';
 import { logger } from '@nx/devkit';
 
@@ -80,7 +80,12 @@ const allowedLibraryTypes = [
   'utils',
 ];
 
-export async function hasFileMatching(globPattern: string): Promise<boolean> {
-  const { done } = await globIterate(globPattern).next();
+export async function hasFileMatching(
+  path: string,
+  globPattern: string
+): Promise<boolean> {
+  const { done } = await globIterate(globPattern, {
+    cwd: path,
+  }).next();
   return !done;
 }

@@ -5,7 +5,7 @@ import {
   Tree,
   writeJson,
 } from '@nx/devkit';
-import { join } from 'node:path';
+import { join } from 'node:path/posix';
 
 export async function updateTsconfigPathsGenerator(
   tree: Tree,
