@@ -1,12 +1,7 @@
 import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import {
-  FilesystemWindowsFake,
-  getProjectInfo,
-  hasFileMatching,
-  hasIndexInParentTree,
-} from './utils';
+import { getProjectInfo, hasFileMatching, hasIndexInParentTree } from './utils';
 import { logger } from '@nx/devkit';
 
 describe(hasIndexInParentTree.name, () => {
@@ -50,19 +45,6 @@ describe(hasIndexInParentTree.name, () => {
 describe(getProjectInfo.name, () => {
   it('should compute platform, scope, name, and type', () => {
     expect(getProjectInfo('libs/web/catalog/search-ui')).toEqual({
-      platform: 'web',
-      scope: 'catalog',
-      name: 'search',
-      type: 'ui',
-    });
-  });
-
-  it('should parse windows paths', () => {
-    expect(
-      getProjectInfo('libs\\web\\catalog\\search-ui', {
-        filesystem: new FilesystemWindowsFake(),
-      })
-    ).toEqual({
       platform: 'web',
       scope: 'catalog',
       name: 'search',

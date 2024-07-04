@@ -1,5 +1,5 @@
 import { stat } from 'node:fs/promises';
-import { dirname, join, sep } from 'node:path';
+import { dirname, join } from 'node:path';
 import { globIterate } from 'glob';
 import { logger } from '@nx/devkit';
 
@@ -33,10 +33,7 @@ export async function hasIndexInParentTree(
   return false;
 }
 
-export function getProjectInfo(
-  projectPath: string,
-  { filesystem } = { filesystem: new FilesystemImpl() }
-):
+export function getProjectInfo(projectPath: string):
   | {
       platform: string;
       scope: string;
@@ -44,7 +41,7 @@ export function getProjectInfo(
       name?: string;
     }
   | undefined {
-  const parts = projectPath.split(filesystem.getPathSeparator());
+  const parts = projectPath.split('/');
 
   if (parts.length !== 4) {
     logger.warn(`Invalid project path ${projectPath}`);
@@ -86,20 +83,4 @@ const allowedLibraryTypes = [
 export async function hasFileMatching(globPattern: string): Promise<boolean> {
   const { done } = await globIterate(globPattern).next();
   return !done;
-}
-
-interface Filesystem {
-  getPathSeparator(): '/' | '\\';
-}
-
-class FilesystemImpl implements Filesystem {
-  getPathSeparator() {
-    return sep;
-  }
-}
-
-export class FilesystemWindowsFake implements Filesystem {
-  getPathSeparator() {
-    return '\\' as const;
-  }
 }
