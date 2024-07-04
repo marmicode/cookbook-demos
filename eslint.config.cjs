@@ -4,7 +4,7 @@ const js = require('@eslint/js');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended
+  recommendedConfig: js.configs.recommended,
 });
 
 module.exports = [
@@ -13,8 +13,8 @@ module.exports = [
     ...config,
     files: ['**/*.json'],
     rules: {
-      ...config.rules
-    }
+      ...config.rules,
+    },
   })),
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -23,10 +23,10 @@ module.exports = [
         'warn',
         {
           argsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_'
-        }
-      ]
-    }
+          destructuredArrayIgnorePattern: '^_',
+        },
+      ],
+    },
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -45,8 +45,8 @@ module.exports = [
                 'type:domain',
                 'type:infra',
                 'type:model',
-                'type:util'
-              ]
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:feature',
@@ -56,12 +56,12 @@ module.exports = [
                 'type:domain',
                 'type:infra',
                 'type:model',
-                'type:util'
-              ]
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:ui',
-              onlyDependOnLibsWithTags: ['type:ui', 'type:model', 'type:util']
+              onlyDependOnLibsWithTags: ['type:ui', 'type:model', 'type:util'],
             },
             {
               sourceTag: 'type:domain',
@@ -69,42 +69,42 @@ module.exports = [
                 'type:domain',
                 'type:infra',
                 'type:model',
-                'type:util'
-              ]
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:infra',
               onlyDependOnLibsWithTags: [
                 'type:infra',
                 'type:model',
-                'type:util'
-              ]
+                'type:util',
+              ],
             },
             {
               sourceTag: 'type:model',
-              onlyDependOnLibsWithTags: ['type:model', 'type:util']
+              onlyDependOnLibsWithTags: ['type:model', 'type:util'],
             },
             {
               sourceTag: 'type:util',
-              onlyDependOnLibsWithTags: ['type:util']
-            }
-          ]
-        }
-      ]
-    }
+              onlyDependOnLibsWithTags: ['type:util'],
+            },
+          ],
+        },
+      ],
+    },
   },
   ...compat.config({ extends: ['plugin:@nx/typescript'] }).map((config) => ({
     ...config,
     files: ['**/*.ts', '**/*.tsx'],
     rules: {
-      ...config.rules
-    }
+      ...config.rules,
+    },
   })),
   ...compat.config({ extends: ['plugin:@nx/javascript'] }).map((config) => ({
     ...config,
     files: ['**/*.js', '**/*.jsx'],
     rules: {
-      ...config.rules
-    }
-  }))
+      ...config.rules,
+    },
+  })),
 ];

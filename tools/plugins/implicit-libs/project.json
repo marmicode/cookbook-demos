@@ -18,9 +18,7 @@
         "{projectRoot}/eslint.config.cjs",
         "{workspaceRoot}/tools/eslint-rules/**/*",
         {
-          "externalDependencies": [
-            "eslint"
-          ]
+          "externalDependencies": ["eslint"]
         }
       ],
       "outputs": ["{options.outputFile}"]
