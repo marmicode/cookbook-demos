@@ -24,5 +24,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile --ignore-scripts
+      # There's no need to format check on all platforms.
+      # + it crashes on windows for some reason not worth investigating.
       - run: bunx nx format:check
+        if: matrix.os == 'ubuntu-latest'
       - run: bunx nx run-many -t build lint test
