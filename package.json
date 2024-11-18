@@ -2,7 +2,9 @@
   "name": "@demo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "test": "nx test"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",
