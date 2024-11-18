@@ -9,4 +9,4 @@ bun install
 bun run test
 ```
 
-The coverage report is generated in the `coverage` folder.
+You will then find the coverage report in the `coverage` folder
