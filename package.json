@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "test": "nx test"
+    "test": "nx test --coverage"
   },
   "private": true,
   "dependencies": {

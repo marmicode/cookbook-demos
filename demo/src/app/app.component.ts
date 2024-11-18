@@ -1,14 +1,37 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import {
+  Component,
+  Directive,
+  inject,
+  signal,
+  Signal,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 
 @Component({
-  standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  template: `
+  @for(recipe of recipes(); track recipe.id) {
+    <article>{{ recipe.name }}</article>
+  } @empty {
+    <p>No recipes found</p>
+  }
+  `,
 })
-export class AppComponent {
-  title = 'demo';
+export class App {
+  recipes: Signal<Recipe[]> = signal([
+    {
+      id: 'rec_burger',
+      name: 'Burger',
+    },
+    {
+      id: 'rec_babaganoush',
+      name: 'Babaganoush',
+    },
+  ]);
+}
+
+interface Recipe {
+  id: string;
+  name: string;
 }
