@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-recipe-list',
   template: `
     @for (recipe of recipes(); track recipe.id) {
       <article>{{ recipe.name }}</article>
@@ -9,6 +9,15 @@ import { Component, signal } from '@angular/core';
       <p>No recipes found</p>
     }
   `,
+})
+export class RecipeList {
+  recipes = input.required<Recipe[]>();
+}
+
+@Component({
+  selector: 'app-root',
+  imports: [RecipeList],
+  template: `<app-recipe-list [recipes]="recipes()" />`,
 })
 export class App {
   recipes = signal<Recipe[]>([
