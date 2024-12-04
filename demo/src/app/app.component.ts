@@ -1,25 +1,17 @@
-import {
-  Component,
-  Directive,
-  inject,
-  signal,
-  Signal,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   template: `
-  @for(recipe of recipes(); track recipe.id) {
-    <article>{{ recipe.name }}</article>
-  } @empty {
-    <p>No recipes found</p>
-  }
+    @for (recipe of recipes(); track recipe.id) {
+      <article>{{ recipe.name }}</article>
+    } @empty {
+      <p>No recipes found</p>
+    }
   `,
 })
 export class App {
-  recipes: Signal<Recipe[]> = signal([
+  recipes = signal<Recipe[]>([
     {
       id: 'rec_burger',
       name: 'Burger',
