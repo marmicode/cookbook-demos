@@ -12,14 +12,8 @@ import { Component, signal } from '@angular/core';
 })
 export class App {
   recipes = signal<Recipe[]>([
-    {
-      id: 'rec_burger',
-      name: 'Burger',
-    },
-    {
-      id: 'rec_babaganoush',
-      name: 'Babaganoush',
-    },
+    { id: 'rec_burger', name: 'Burger' },
+    { id: 'rec_babaganoush', name: 'Babaganoush' },
   ]);
 }
 
