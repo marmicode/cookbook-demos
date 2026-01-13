@@ -1,4 +1,3 @@
-import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { render } from '@testing-library/angular';
 /* We are using the screen from DOM Testing Library because we don't
  * want Angular Testing Library to trigger change detection as that could
@@ -53,10 +52,7 @@ async function renderCookbookSearch() {
   const anotherCookbook = cookbookMother.withBasicInfo('Burgers 101').build();
 
   await render(CookbookSearch, {
-    providers: [
-      provideCookbookRepositoryFake(),
-      provideExperimentalZonelessChangeDetection(),
-    ],
+    providers: [provideCookbookRepositoryFake()],
     configureTestBed(testBed) {
       const fake = testBed.inject(CookbookRepositoryFake);
 

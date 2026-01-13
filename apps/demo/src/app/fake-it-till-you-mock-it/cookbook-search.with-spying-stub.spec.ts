@@ -1,4 +1,3 @@
-import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { render } from '@testing-library/angular';
 import { screen } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
@@ -56,7 +55,6 @@ async function renderCookbookSearch() {
 
   await render(CookbookSearch, {
     providers: [
-      provideExperimentalZonelessChangeDetection(),
       {
         provide: CookbookRepository,
         useValue: repo,

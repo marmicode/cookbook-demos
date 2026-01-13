@@ -65,8 +65,8 @@ import { CookbookRepository } from './cookbook-repository';
 })
 export class CookbookSearch {
   cookbooksResource = rxResource({
-    request: () => ({ keywords: this.keywords() }),
-    loader: ({ request: { keywords } }) => {
+    params: () => ({ keywords: this.keywords() }),
+    stream: ({ params: { keywords } }) => {
       return this._cookbookRepository.searchCookbooks(keywords ?? null);
     },
   });
