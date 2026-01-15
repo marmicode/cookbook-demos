@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CookbookSearch } from './fake-it-till-you-mock-it/cookbook-search.ng';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'mc-root',
-  imports: [CookbookSearch],
-  template: ` <mc-cookbook-search />`,
+  imports: [RouterOutlet],
+  template: `<router-outlet />`,
 })
 export class App {}

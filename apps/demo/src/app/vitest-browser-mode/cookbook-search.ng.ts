@@ -55,3 +55,5 @@ export class CookbookSearch {
 
   private _cookbookRepository = inject(CookbookRepository);
 }
+
+export default CookbookSearch;
