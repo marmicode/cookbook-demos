@@ -20,7 +20,6 @@ import { Cookbook } from './core/cookbook';
     MatCardImage,
     MatCardSubtitle,
     MatCardTitle,
-    MatAnchor,
   ],
   template: `
     <mat-card class="card">
@@ -33,24 +32,12 @@ import { Cookbook } from './core/cookbook';
         </mat-card-subtitle>
       </mat-card-header>
 
-      @if (cookbook().pictureUri) {
-        <img
-          [src]="cookbook().pictureUri"
-          mat-card-image
-          alt="{{ cookbook().title }}"
-        />
+      @if (cookbook().pictureUri; as pictureUri) {
+        <img [alt]="cookbook().title" [src]="pictureUri" mat-card-image />
       }
 
       <mat-card-actions class="actions">
-        @if (cookbook().pictureUri) {
-          <a
-            [href]="cookbook().previewUrl"
-            mat-stroked-button
-            color="primary"
-            target="_blank"
-            >Preview</a
-          >
-        }
+        <ng-content select="[data-slot='actions']" />
       </mat-card-actions>
     </mat-card>
   `,
