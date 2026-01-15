@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
+import { Cart } from './cart';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +47,9 @@ import { MatToolbar } from '@angular/material/toolbar';
   `,
 })
 export class CookbookToolbar {
-  cartItemCount = input.required<number>();
+  protected cartItemCount = computed(() => this._cart.cookbooks().length);
+
+  private _cart = inject(Cart);
 }
 
 export default CookbookToolbar;

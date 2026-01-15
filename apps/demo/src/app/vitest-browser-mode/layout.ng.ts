@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CookbookToolbar } from './cookbook-toolbar.ng';
 
@@ -7,7 +7,7 @@ import { CookbookToolbar } from './cookbook-toolbar.ng';
   selector: 'mc-layout',
   imports: [CookbookToolbar, RouterOutlet],
   template: `
-    <mc-cookbook-toolbar [cartItemCount]="cartItemCount()" />
+    <mc-cookbook-toolbar />
     <router-outlet />
   `,
   styles: `
@@ -18,8 +18,6 @@ import { CookbookToolbar } from './cookbook-toolbar.ng';
     }
   `,
 })
-export class Layout {
-  cartItemCount = computed(() => 42);
-}
+export class Layout {}
 
 export default Layout;

@@ -10,6 +10,8 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { CookbookPreview } from './cookbook-preview.ng';
 import { CookbookRepository } from './cookbook-repository';
+import { Cart } from './cart';
+import { Cookbook } from './cookbook';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +34,7 @@ import { CookbookRepository } from './cookbook-repository';
       @for (cookbook of cookbooks(); track cookbook.id) {
         <mc-cookbook-preview [cookbook]="cookbook">
           <button
+            (click)="addToCart(cookbook)"
             mat-stroked-button
             color="primary"
             data-slot="actions"
@@ -66,12 +69,17 @@ import { CookbookRepository } from './cookbook-repository';
   `,
 })
 export class CookbookSearch {
-  cookbooks = computed(() =>
+  protected cookbooks = computed(() =>
     this._cookbookRepository.searchCookbooks(this.keywords()),
   );
   protected keywords = signal<string | null>(null);
 
+  private _cart = inject(Cart);
   private _cookbookRepository = inject(CookbookRepository);
+
+  addToCart(cookbook: Cookbook) {
+    this._cart.addCookbook(cookbook);
+  }
 }
 
 export default CookbookSearch;
