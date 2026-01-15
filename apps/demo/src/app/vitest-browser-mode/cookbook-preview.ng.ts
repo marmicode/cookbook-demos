@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { MatAnchor } from '@angular/material/button';
 import {
   MatCard,
   MatCardActions,
@@ -20,39 +19,30 @@ import { Cookbook } from './cookbook';
     MatCardImage,
     MatCardSubtitle,
     MatCardTitle,
-    MatAnchor,
   ],
   template: `
     <mat-card class="card">
-      <mat-card-header class="header">
-        <mat-card-title class="title" role="heading">{{
-          cookbook().title
-        }}</mat-card-title>
-        <mat-card-subtitle
-          >{{ cookbook().authors.join(', ') }}
-        </mat-card-subtitle>
-      </mat-card-header>
+      <a [href]="cookbook().previewUrl" target="_blank" class="card-link">
+        <mat-card-header class="header">
+          <mat-card-title class="title" role="heading">{{
+            cookbook().title
+          }}</mat-card-title>
+          <mat-card-subtitle
+            >{{ cookbook().authors.join(', ') }}
+          </mat-card-subtitle>
+        </mat-card-header>
 
-      @if (cookbook().pictureUri) {
-        <img
-          [src]="cookbook().pictureUri"
-          mat-card-image
-          alt="{{ cookbook().title }}"
-        />
-      }
-
+        @if (cookbook().pictureUri; as pictureUri) {
+          <img
+            [alt]="cookbook().title"
+            [src]="pictureUri"
+            class="picture"
+            mat-card-image
+          />
+        }
+      </a>
       <mat-card-actions class="actions">
         <ng-content select="[data-slot='actions']" />
-
-        @if (cookbook().pictureUri) {
-          <a
-            [href]="cookbook().previewUrl"
-            mat-stroked-button
-            color="accent"
-            target="_blank"
-            >Preview</a
-          >
-        }
       </mat-card-actions>
     </mat-card>
   `,
@@ -64,8 +54,18 @@ import { Cookbook } from './cookbook';
 
     .card {
       height: 100%;
-      flex-direction: column;
-      justify-content: space-between;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .card-link:hover {
+      text-decoration: none;
     }
 
     .header {
@@ -79,9 +79,10 @@ import { Cookbook } from './cookbook';
       width: 100%;
     }
 
-    img {
+    .picture {
       max-height: 200px;
-      object-fit: cover;
+      width: 100%;
+      object-fit: contain;
     }
 
     .actions {
