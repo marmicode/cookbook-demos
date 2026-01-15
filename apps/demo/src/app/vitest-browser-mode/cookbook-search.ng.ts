@@ -45,7 +45,13 @@ import { Cookbook } from './cookbook';
           </button>
         </mc-cookbook-preview>
       } @empty {
-        <p>No cookbooks found</p>
+        <div class="no-cookbooks-found" role="status" aria-live="polite">
+          <img
+            src="https://marmicode.io/assets/error.gif"
+            alt="No cookbooks found"
+          />
+          <p>No cookbooks found</p>
+        </div>
       }
     </section>
   `,
@@ -66,6 +72,14 @@ import { Cookbook } from './cookbook';
       flex-wrap: wrap;
       gap: 30px;
       justify-content: center;
+    }
+
+    .no-cookbooks-found {
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      font-size: 2em;
+      font-weight: 300;
+      line-height: 1.2;
+      text-align: center;
     }
   `,
 })
