@@ -208,14 +208,8 @@ import { RouterLink } from '@angular/router';
     }
   `,
 })
-interface Recipe {
-  title: string;
-  route: string;
-  externalUrl: string;
-}
-
 export class RecipeSelector {
-  protected readonly recipes: Recipe[] = [
+  protected readonly recipes: CookbookRecipeInfo[] = [
     {
       title: 'How to Cook a Fake',
       route: '/fake-it-till-you-mock-it',
@@ -229,4 +223,10 @@ export class RecipeSelector {
         'https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode',
     },
   ];
+}
+
+interface CookbookRecipeInfo {
+  title: string;
+  route: string;
+  externalUrl: string;
 }
