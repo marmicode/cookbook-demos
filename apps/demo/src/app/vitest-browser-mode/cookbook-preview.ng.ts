@@ -42,11 +42,13 @@ import { Cookbook } from './cookbook';
       }
 
       <mat-card-actions class="actions">
+        <ng-content select="[data-slot='actions']" />
+
         @if (cookbook().pictureUri) {
           <a
             [href]="cookbook().previewUrl"
             mat-stroked-button
-            color="primary"
+            color="accent"
             target="_blank"
             >Preview</a
           >

@@ -9,11 +9,19 @@ import { FormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { CookbookPreview } from './cookbook-preview.ng';
 import { CookbookRepository } from './cookbook-repository';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'mc-cookbook-search',
-  imports: [CookbookPreview, FormsModule, MatFormField, MatInput, MatLabel],
+  imports: [
+    CookbookPreview,
+    FormsModule,
+    MatButton,
+    MatFormField,
+    MatInput,
+    MatLabel,
+  ],
   template: `
     <mat-form-field class="keywords" appearance="fill">
       <mat-label>Keywords</mat-label>
@@ -22,7 +30,16 @@ import { CookbookRepository } from './cookbook-repository';
 
     <section class="cookbooks-container">
       @for (cookbook of cookbooks(); track cookbook.id) {
-        <mc-cookbook-preview [cookbook]="cookbook" />
+        <mc-cookbook-preview [cookbook]="cookbook">
+          <button
+            mat-stroked-button
+            color="primary"
+            data-slot="actions"
+            target="_blank"
+          >
+            Add to Cart
+          </button>
+        </mc-cookbook-preview>
       } @empty {
         <p>No cookbooks found</p>
       }
