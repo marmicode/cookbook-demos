@@ -11,56 +11,32 @@ import { RouterLink } from '@angular/router';
       <h1>Cookbook Recipes</h1>
       <nav>
         <ul>
-          <li>
-            <div class="recipe-item">
-              <a
-                routerLink="/fake-it-till-you-mock-it"
-                class="recipe-link"
-                aria-label="View demo: How to Cook a Fake"
-              >
-                <span class="recipe-title">How to Cook a Fake</span>
-                <span class="action-label">View Demo</span>
-              </a>
-              <div class="divider"></div>
-              <a
-                href="https://cookbook.marmicode.io/angular/testing/how-to-cook-a-fake"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="external-link"
-                aria-label="Open cookbook chapter: How to Cook a Fake"
-                (click)="$event.stopPropagation()"
-              >
-                <mat-icon>open_in_new</mat-icon>
-                <span class="action-label">Read Chapter</span>
-              </a>
-            </div>
-          </li>
-          <li>
-            <div class="recipe-item">
-              <a
-                routerLink="/vitest-browser-mode"
-                class="recipe-link"
-                aria-label="View demo: How to Progressively Migrate to Vitest Browser Mode"
-              >
-                <span class="recipe-title"
-                  >How to Progressively Migrate to Vitest Browser Mode</span
+          @for (recipe of recipes; track recipe.route) {
+            <li>
+              <div class="recipe-item">
+                <a
+                  [attr.aria-label]="'View demo: ' + recipe.title"
+                  [routerLink]="recipe.route"
+                  class="recipe-link"
                 >
-                <span class="action-label">View Demo</span>
-              </a>
-              <div class="divider"></div>
-              <a
-                href="https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="external-link"
-                aria-label="Open cookbook chapter: How to Progressively Migrate to Vitest Browser Mode"
-                (click)="$event.stopPropagation()"
-              >
-                <mat-icon>open_in_new</mat-icon>
-                <span class="action-label">Read Chapter</span>
-              </a>
-            </div>
-          </li>
+                  <span class="recipe-title">{{ recipe.title }}</span>
+                  <span class="action-label">View Demo</span>
+                </a>
+                <div class="divider"></div>
+                <a
+                  [attr.aria-label]="'Open cookbook chapter: ' + recipe.title"
+                  [href]="recipe.externalUrl"
+                  (click)="$event.stopPropagation()"
+                  class="external-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <mat-icon>open_in_new</mat-icon>
+                  <span class="action-label">Read Chapter</span>
+                </a>
+              </div>
+            </li>
+          }
         </ul>
       </nav>
     </div>
@@ -232,4 +208,25 @@ import { RouterLink } from '@angular/router';
     }
   `,
 })
-export class RecipeSelector {}
+interface Recipe {
+  title: string;
+  route: string;
+  externalUrl: string;
+}
+
+export class RecipeSelector {
+  protected readonly recipes: Recipe[] = [
+    {
+      title: 'How to Cook a Fake',
+      route: '/fake-it-till-you-mock-it',
+      externalUrl:
+        'https://cookbook.marmicode.io/angular/testing/how-to-cook-a-fake',
+    },
+    {
+      title: 'How to Progressively Migrate to Vitest Browser Mode',
+      route: '/vitest-browser-mode',
+      externalUrl:
+        'https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode',
+    },
+  ];
+}
