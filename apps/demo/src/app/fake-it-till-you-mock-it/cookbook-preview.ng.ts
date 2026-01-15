@@ -33,18 +33,14 @@ import { Cookbook } from './core/cookbook';
         </mat-card-subtitle>
       </mat-card-header>
 
-      @if (cookbook().pictureUri) {
-        <img
-          [src]="cookbook().pictureUri"
-          mat-card-image
-          alt="{{ cookbook().title }}"
-        />
+      @if (cookbook().pictureUri; as pictureUri) {
+        <img [src]="pictureUri" mat-card-image alt="{{ cookbook().title }}" />
       }
 
       <mat-card-actions class="actions">
-        @if (cookbook().pictureUri) {
+        @if (cookbook().previewUrl; as previewUrl) {
           <a
-            [href]="cookbook().previewUrl"
+            [href]="previewUrl"
             mat-stroked-button
             color="primary"
             target="_blank"
