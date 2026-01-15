@@ -16,7 +16,7 @@ import { Cart } from './cart';
   template: `
     <mat-toolbar color="primary">
       <span class="spacer"></span>
-      <button mat-icon-button class="cart-button">
+      <button mat-icon-button>
         <mat-icon>shopping_cart</mat-icon>
         <span class="cart-badge">{{ cartItemCount() }}</span>
       </button>
@@ -31,18 +31,16 @@ import { Cart } from './cart';
       position: absolute;
       top: 0;
       right: 0;
-      height: 18px;
+
       font-size: 11px;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+      line-height: 18px;
+      text-align: center;
+      vertical-align: middle;
       padding: 0 5px;
       background-color: #f44336;
-      color: white;
       border-radius: 9px;
-      line-height: 1;
-      z-index: 1;
     }
   `,
 })
