@@ -34,6 +34,7 @@ import { Cookbook } from './cookbook';
       @for (cookbook of cookbooks(); track cookbook.id) {
         <mc-cookbook-preview [cookbook]="cookbook">
           <button
+            [disabled]="!cookbook.canAdd"
             (click)="addToCart(cookbook)"
             mat-stroked-button
             color="primary"
@@ -70,7 +71,12 @@ import { Cookbook } from './cookbook';
 })
 export class CookbookSearch {
   protected cookbooks = computed(() =>
-    this._cookbookRepository.searchCookbooks(this.keywords()),
+    this._cookbookRepository
+      .searchCookbooks(this.keywords())
+      .map((cookbook) => ({
+        ...cookbook,
+        canAdd: this._cart.canAdd(cookbook.id),
+      })),
   );
   protected keywords = signal<string | null>(null);
 
