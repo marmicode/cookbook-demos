@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, resource, Resource, Signal } from '@angular/core';
 import { Cookbook, createCookbook } from './cookbook';
 
 @Injectable({ providedIn: 'root' })
@@ -82,20 +82,27 @@ export class CookbookRepository {
     }),
   ];
 
-  searchCookbooks(keywords: string | null): Cookbook[] {
-    let cookbooks = this._cookbooks;
+  createCookbooksResource(
+    keywords: Signal<string | null>,
+  ): Resource<Cookbook[] | undefined> {
+    return resource({
+      params: () => ({ keywords: keywords() }),
+      loader: async ({ params: { keywords } }) => {
+        let cookbooks = this._cookbooks;
 
-    if (keywords) {
-      cookbooks = this._cookbooks.filter(
-        (cookbook) =>
-          this._valueIncludes(cookbook.title, keywords) ||
-          cookbook.authors.some((author) =>
-            this._valueIncludes(author, keywords),
-          ),
-      );
-    }
+        if (keywords) {
+          cookbooks = this._cookbooks.filter(
+            (cookbook) =>
+              this._valueIncludes(cookbook.title, keywords) ||
+              cookbook.authors.some((author) =>
+                this._valueIncludes(author, keywords),
+              ),
+          );
+        }
 
-    return cookbooks;
+        return cookbooks;
+      },
+    });
   }
 
   private _valueIncludes(value: string, keywords: string): boolean {
