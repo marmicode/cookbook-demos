@@ -1,10 +1,10 @@
-import { render } from '@testing-library/angular';
 /* We are using the screen from DOM Testing Library because we don't
  * want Angular Testing Library to trigger change detection as that could
  * make us miss synchronization issues. */
+import { TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   CookbookRepositoryFake,
   provideCookbookRepositoryFake,
@@ -51,16 +51,16 @@ async function renderCookbookSearch() {
     .build();
   const anotherCookbook = cookbookMother.withBasicInfo('Burgers 101').build();
 
-  await render(CookbookSearch, {
+  TestBed.configureTestingModule({
     providers: [provideCookbookRepositoryFake()],
-    configureTestBed(testBed) {
-      const fake = testBed.inject(CookbookRepositoryFake);
-
-      fake.configure({
-        cookbooks: [ottolenghiSimple, anotherCookbook],
-      });
-    },
   });
+
+  const fake = TestBed.inject(CookbookRepositoryFake);
+  fake.configure({
+    cookbooks: [ottolenghiSimple, anotherCookbook],
+  });
+
+  TestBed.createComponent(CookbookSearch);
 
   return {
     async typeKeywords(keywords: string) {

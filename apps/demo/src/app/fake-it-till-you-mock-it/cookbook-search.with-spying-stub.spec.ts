@@ -1,8 +1,8 @@
-import { render } from '@testing-library/angular';
+import { TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
 import { of } from 'rxjs';
-import { describe, it, Mocked } from 'vitest';
+import { describe, expect, it, Mocked, vi } from 'vitest';
 import { CookbookRepository } from './cookbook-repository';
 import { CookbookSearch } from './cookbook-search.ng';
 import { cookbookMother } from './core/cookbook.mother';
@@ -53,7 +53,7 @@ async function renderCookbookSearch() {
 
   repo.searchCookbooks.mockReturnValue(of([ottolenghiSimple, burgers101]));
 
-  await render(CookbookSearch, {
+  TestBed.configureTestingModule({
     providers: [
       {
         provide: CookbookRepository,
@@ -61,6 +61,8 @@ async function renderCookbookSearch() {
       },
     ],
   });
+
+  TestBed.createComponent(CookbookSearch);
 
   return {
     repo,
