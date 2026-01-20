@@ -21,7 +21,7 @@ import { Cookbook } from './cookbook';
     MatCardTitle,
   ],
   template: `
-    <mat-card class="card">
+    <mat-card class="card" role="article">
       <a [href]="cookbook().previewUrl" target="_blank" class="card-link">
         <mat-card-header class="header">
           <mat-card-title class="title" role="heading">{{

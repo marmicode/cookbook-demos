@@ -18,6 +18,7 @@ describe(CookbookSearch.name, () => {
   });
 
   it('adds first cookbook (Angular Testing Cookbook) to the cart', async () => {
+    const cart = TestBed.inject(Cart);
     TestBed.createComponent(CookbookSearch);
 
     const addToCartButtons = await screen.findAllByRole('button', {
@@ -25,7 +26,7 @@ describe(CookbookSearch.name, () => {
     });
     await userEvent.click(addToCartButtons[0]);
 
-    expect(TestBed.inject(Cart).cookbooks()).toMatchObject([
+    expect(cart.cookbooks()).toMatchObject([
       {
         title: 'Angular Testing Cookbook',
       },
