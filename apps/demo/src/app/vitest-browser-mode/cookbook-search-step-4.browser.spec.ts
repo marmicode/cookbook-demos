@@ -10,7 +10,7 @@ describe(CookbookSearch.name, () => {
 
     await page.getByRole('textbox', { name: 'Keywords' }).fill('Marmicode');
 
-    await expect.poll(() => page.getByRole('heading')).toHaveLength(3);
+    await expect.element(page.getByRole('heading')).toHaveLength(3);
   });
 
   it('adds first cookbook (Angular Testing Cookbook) to the cart', async () => {
