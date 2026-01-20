@@ -16,6 +16,7 @@ export default defineConfig({
       reportsDirectory: '../../coverage/apps/demo',
       provider: 'v8' as const,
     },
+    testTimeout: 3_000,
     projects: [
       {
         extends: true,
@@ -23,6 +24,7 @@ export default defineConfig({
           name: 'emulated',
           environment: 'jsdom',
           include: testPatterns,
+          exclude: browserTestPatterns,
         },
       },
       {
@@ -34,11 +36,7 @@ export default defineConfig({
             enabled: true,
             headless: true,
             provider: playwright(),
-            instances: [
-              {
-                browser: 'chromium',
-              },
-            ],
+            instances: [{ browser: 'chromium' }],
           },
         },
       },
