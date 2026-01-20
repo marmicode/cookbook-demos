@@ -5,13 +5,13 @@ import { Cookbook, createCookbook } from './cookbook';
 export class CookbookRepository {
   private _cookbooks: Cookbook[] = [
     createCookbook({
-      id: 'angular-core-cookbook',
-      title: 'Angular Core Cookbook',
+      id: 'angular-testing-cookbook',
+      title: 'Angular Testing Cookbook',
       authors: ['Younes Jaaidi | Marmicode'],
       description:
-        'This Angular Core cookbook distills the essential knowledge for building apps that scale and survive Angular migrations. It cuts through the noise — no experimental APIs, no hype. Just the knowledge that matters.',
+        "This cookbook is the complementary resource to the Pragmatic Angular Testing course. It's for Angular developers who want to build a pragmatic testing strategy — in opposition to dogmatic approaches.",
       pictureUri: 'https://cookbook.marmicode.io/img/social-card.png',
-      previewUrl: 'https://cookbook.marmicode.io/angular',
+      previewUrl: 'https://cookbook.marmicode.io/angular/testing',
     }),
     createCookbook({
       id: 'simple',
@@ -23,13 +23,13 @@ export class CookbookRepository {
       previewUrl: 'https://www.ottolenghi.co.uk/simple',
     }),
     createCookbook({
-      id: 'angular-testing-cookbook',
-      title: 'Angular Testing Cookbook',
+      id: 'angular-core-cookbook',
+      title: 'Angular Core Cookbook',
       authors: ['Younes Jaaidi | Marmicode'],
       description:
-        "This cookbook is the complementary resource to the Pragmatic Angular Testing course. It's for Angular developers who want to build a pragmatic testing strategy — in opposition to dogmatic approaches.",
+        'This Angular Core cookbook distills the essential knowledge for building apps that scale and survive Angular migrations. It cuts through the noise — no experimental APIs, no hype. Just the knowledge that matters.',
       pictureUri: 'https://cookbook.marmicode.io/img/social-card.png',
-      previewUrl: 'https://cookbook.marmicode.io/angular/testing',
+      previewUrl: 'https://cookbook.marmicode.io/angular',
     }),
     createCookbook({
       id: 'all-the-cuisine-of-paul-bocuse',

@@ -3,6 +3,7 @@ import { screen } from '@testing-library/angular';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { CookbookSearch } from './cookbook-search.ng';
+import { Cart } from './cart';
 
 describe(CookbookSearch.name, () => {
   it('filters recipes by authors name', async () => {
@@ -14,5 +15,20 @@ describe(CookbookSearch.name, () => {
     );
 
     await expect.poll(() => screen.getAllByRole('heading')).toHaveLength(3);
+  });
+
+  it('adds first cookbook (Angular Testing Cookbook) to the cart', async () => {
+    TestBed.createComponent(CookbookSearch);
+
+    const addToCartButtons = await screen.findAllByRole('button', {
+      name: 'Add to Cart',
+    });
+    await userEvent.click(addToCartButtons[0]);
+
+    expect(TestBed.inject(Cart).cookbooks()).toMatchObject([
+      {
+        title: 'Angular Testing Cookbook',
+      },
+    ]);
   });
 });
