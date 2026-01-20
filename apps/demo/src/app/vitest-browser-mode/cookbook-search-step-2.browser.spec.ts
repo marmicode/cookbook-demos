@@ -15,6 +15,14 @@ describe(CookbookSearch.name, () => {
     );
 
     await expect.poll(() => screen.getAllByRole('heading')).toHaveLength(3);
+    const headings = screen.getAllByRole('heading');
+    await expect
+      .element(headings[0])
+      .toHaveTextContent('Angular Testing Cookbook');
+    await expect
+      .element(headings[1])
+      .toHaveTextContent('Angular Core Cookbook');
+    await expect.element(headings[2]).toHaveTextContent('Nx Cookbook');
   });
 
   it('adds first cookbook (Angular Testing Cookbook) to the cart', async () => {
@@ -27,9 +35,7 @@ describe(CookbookSearch.name, () => {
     await userEvent.click(addToCartButtons[0]);
 
     expect(cart.cookbooks()).toMatchObject([
-      {
-        title: 'Angular Testing Cookbook',
-      },
+      { title: 'Angular Testing Cookbook' },
     ]);
   });
 });
