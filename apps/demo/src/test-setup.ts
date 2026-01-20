@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/vitest';
+import './test-setup-matchers';
 import { setupTestBed } from '@analogjs/vitest-angular/setup-testbed';
 
 setupTestBed();

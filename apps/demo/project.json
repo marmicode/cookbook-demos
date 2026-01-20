@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/demo",
@@ -81,6 +81,20 @@
         "buildTarget": "demo:build",
         "staticFilePath": "dist/apps/demo/browser",
         "spa": true
+      }
+    },
+    "ng-test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "exclude": ["**/*.browser.spec.ts"],
+        "setupFiles": ["{projectRoot}/src/test-setup-matchers.ts"]
+      }
+    },
+    "ng-test-browser": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "browsers": ["ChromiumHeadless"],
+        "include": ["**/*.browser.spec.ts"]
       }
     }
   }
