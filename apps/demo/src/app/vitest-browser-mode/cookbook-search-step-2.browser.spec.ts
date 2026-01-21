@@ -14,8 +14,9 @@ describe(CookbookSearch.name, () => {
       'Marmicode',
     );
 
-    await expect.poll(() => screen.getAllByRole('heading')).toHaveLength(3);
-    const headings = screen.getAllByRole('heading');
+    const getHeadings = () => screen.getAllByRole('heading');
+    await expect.poll(() => getHeadings()).toHaveLength(3);
+    const headings = getHeadings();
     await expect
       .element(headings[0])
       .toHaveTextContent('Angular Testing Cookbook');

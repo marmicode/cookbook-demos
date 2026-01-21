@@ -14,10 +14,16 @@ describe(CookbookSearch.name, () => {
       'Marmicode',
     );
 
-    await expect.poll(() => screen.getAllByRole('heading')).toHaveLength(3);
+    const getHeadings = () => screen.getAllByRole('heading');
+    await expect.poll(() => getHeadings()).toHaveLength(3);
+    const headings = getHeadings();
+    expect(headings[0]).toHaveTextContent('Angular Testing Cookbook');
+    expect(headings[1]).toHaveTextContent('Angular Core Cookbook');
+    expect(headings[2]).toHaveTextContent('Nx Cookbook');
   });
 
   it('adds first cookbook (Angular Testing Cookbook) to the cart', async () => {
+    const cart = TestBed.inject(Cart);
     TestBed.createComponent(CookbookSearch);
 
     const addToCartButtons = await screen.findAllByRole('button', {
@@ -25,7 +31,7 @@ describe(CookbookSearch.name, () => {
     });
     await userEvent.click(addToCartButtons[0]);
 
-    expect(TestBed.inject(Cart).cookbooks()).toMatchObject([
+    expect(cart.cookbooks()).toMatchObject([
       {
         title: 'Angular Testing Cookbook',
       },
