@@ -131,5 +131,3 @@ export class CookbookSearch {
 interface CookbookWithCartInfo extends Cookbook {
   canAdd: boolean;
 }
-
-export default CookbookSearch;
