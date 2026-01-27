@@ -8,7 +8,7 @@ export default defineConfig({
     testTimeout: 1_000,
     watch: false,
     include: ['src/**/*.spec.ts'],
-    setupFiles: ['src/test-setup.ts', 'src/test-setup-matchers.ts'],
+    setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     browser: {
       enabled: true,
