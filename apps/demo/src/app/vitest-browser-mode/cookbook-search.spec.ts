@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/angular';
-import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { describe, expect, it } from 'vitest';
+import { page } from 'vitest/browser';
 import { Cart } from './cart';
 import { CookbookSearch } from './cookbook-search.ng';
 
@@ -9,26 +8,28 @@ describe(CookbookSearch.name, () => {
   it('filters cookbooks by author name', async () => {
     TestBed.createComponent(CookbookSearch);
 
-    const keywordsEl = await screen.findByRole('textbox', { name: 'Keywords' });
-    await userEvent.type(keywordsEl, 'Marmicode');
+    await page.getByRole('textbox', { name: 'Keywords' }).fill('Marmicode');
 
-    await vi.waitFor(async () => {
-      const headings = screen.queryAllByRole('heading');
-      expect(headings).toHaveLength(3);
-      expect(headings[0]).toHaveTextContent('Angular Testing Cookbook');
-      expect(headings[1]).toHaveTextContent('Angular Core Cookbook');
-      expect(headings[2]).toHaveTextContent('Nx Cookbook');
-    });
+    const headings = page.getByRole('heading');
+    await expect.element(headings).toHaveLength(3);
+    await expect
+      .element(headings.nth(0))
+      .toHaveTextContent('Angular Testing Cookbook');
+    await expect
+      .element(headings.nth(1))
+      .toHaveTextContent('Angular Core Cookbook');
+    await expect.element(headings.nth(2)).toHaveTextContent('Nx Cookbook');
   });
 
   it('adds cookbook to the cart when user clicks on "Add to Cart" button', async () => {
     const cart = TestBed.inject(Cart);
     TestBed.createComponent(CookbookSearch);
 
-    const addToCartButtons = await screen.findAllByRole('button', {
-      name: 'Add to Cart',
-    });
-    await userEvent.click(addToCartButtons[0]);
+    await page
+      .getByRole('article')
+      .filter({ hasText: 'Angular Testing Cookbook' })
+      .getByRole('button', { name: 'Add to Cart' })
+      .click();
 
     expect(cart.cookbooks()).toMatchObject([
       {
