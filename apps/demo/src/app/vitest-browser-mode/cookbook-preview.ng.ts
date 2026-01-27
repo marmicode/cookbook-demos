@@ -50,6 +50,8 @@ import { Cookbook } from './cookbook';
     :host {
       display: block;
       width: 300px;
+      height: 200px;
+      overflow: clip;
     }
 
     .card {

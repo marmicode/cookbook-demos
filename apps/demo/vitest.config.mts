@@ -5,6 +5,7 @@ import viteConfig from './vite.config.mjs';
 export default defineConfig({
   ...viteConfig,
   test: {
+    testTimeout: 1_000,
     watch: false,
     include: ['src/**/*.spec.ts'],
     setupFiles: ['src/test-setup.ts'],

@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { Cart } from './cart';
 import { CookbookSearch } from './cookbook-search.ng';
 import { screen } from '@testing-library/angular';
-import { userEvent } from '@testing-library/user-event';
+import { userEvent } from 'vitest/browser';
 
 describe(CookbookSearch.name, () => {
   it('filters cookbooks by author name', async () => {
