@@ -8,7 +8,7 @@ describe(CookbookSearch.name, () => {
   it('filters cookbooks by author name', async () => {
     TestBed.createComponent(CookbookSearch);
 
-    await page.getByRole('textbox', { name: 'Keywords' }).fill('Marmicode');
+    await page.getByRole('textbox', { name: 'Keywords' }).fill('Bocuse');
 
     const headings = page.getByRole('heading');
     await expect.element(headings).toHaveLength(3);
@@ -27,7 +27,7 @@ describe(CookbookSearch.name, () => {
 
     await page
       .getByRole('article')
-      .filter({ hasText: 'Angular Testing Cookbook' })
+      .filter({ hasText: 'Nx Cookbook' })
       .getByRole('button', { name: 'Add to Cart' })
       .click();
 

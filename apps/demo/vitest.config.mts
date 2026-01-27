@@ -10,8 +10,11 @@ export default defineConfig({
     include: ['src/**/*.spec.ts'],
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
+    retry: 1,
     browser: {
       enabled: true,
+      headless: true,
+      trace: 'on-first-retry',
       provider: playwright(),
       instances: [
         { browser: 'chromium', viewport: { width: 1920, height: 1080 } },
