@@ -48,3 +48,4 @@ vitest.config.*.timestamp*
 .vitest-attachments
 __screenshots__
 __traces__
+apps/*/html
