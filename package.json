@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "ls /bin/jsh || playwright install chromium",
+    "start": "nx serve",
     "test": "nx test --ui --watch"
   },
   "private": true,
