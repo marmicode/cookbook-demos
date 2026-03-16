@@ -1,23 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { CookbookFilter, CookbookFilterForm } from './cookbook-filter-form.ng';
 import { CookbookPreview } from './cookbook-preview.ng';
 import { CookbookRepository } from './cookbook-repository';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'mc-cookbook-search',
-  imports: [CookbookPreview, FormsModule, MatFormField, MatInput, MatLabel],
+  imports: [CookbookFilterForm, CookbookPreview],
   template: `
-    <mat-form-field class="keywords" appearance="fill">
-      <mat-label>Keywords</mat-label>
-      <input [(ngModel)]="keywords" matInput />
-    </mat-form-field>
+    <mc-cookbook-filter-form (filterChange)="filter.set($event)" />
 
     @if (cookbooks.error()) {
       <div class="status" role="status" aria-live="polite">
@@ -51,10 +48,6 @@ import { CookbookRepository } from './cookbook-repository';
       margin-top: 10px;
     }
 
-    .keywords {
-      width: min(400px, 90vw);
-    }
-
     .cookbooks-container {
       display: flex;
       flex-wrap: wrap;
@@ -72,7 +65,7 @@ import { CookbookRepository } from './cookbook-repository';
   `,
 })
 export class CookbookSearch {
-  protected keywords = signal<string | null>(null);
-
+  filter = signal<CookbookFilter | null>(null);
+  keywords = computed(() => this.filter()?.keywords ?? null);
   cookbooks = inject(CookbookRepository).createCookbooksResource(this.keywords);
 }
