@@ -8,6 +8,10 @@ export const routes: Routes = [
     component: RecipeSelector,
   },
   {
+    path: recipeRouterHelper.DEBOUNCE,
+    loadComponent: () => import('./debounce'),
+  },
+  {
     path: recipeRouterHelper.FAKE_IT_TILL_YOU_MOCK_IT,
     loadComponent: () => import('./fake-it-till-you-mock-it'),
   },

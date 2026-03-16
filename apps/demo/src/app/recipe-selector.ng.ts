@@ -218,6 +218,12 @@ export class RecipeSelector {
         'https://cookbook.marmicode.io/angular/testing/how-to-cook-a-fake',
     },
     {
+      title: 'How to Test Debounce Timing',
+      route: recipeRouterHelper.debounceRoute(),
+      externalUrl:
+        'https://cookbook.marmicode.io/angular/testing/how-to-test-debounce',
+    },
+    {
       title: 'How to Progressively Migrate to Vitest Browser Mode',
       route: recipeRouterHelper.vitestBrowserModeRoute(),
       externalUrl:
@@ -228,6 +234,6 @@ export class RecipeSelector {
 
 interface CookbookRecipeInfo {
   title: string;
-  route: string;
+  route: string[];
   externalUrl: string;
 }
