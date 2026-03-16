@@ -218,16 +218,22 @@ export class RecipeSelector {
         'https://cookbook.marmicode.io/angular/testing/how-to-cook-a-fake',
     },
     {
+      title: 'How to Progressively Migrate to Vitest Browser Mode',
+      route: recipeRouterHelper.vitestBrowserModeRoute(),
+      externalUrl:
+        'https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode',
+    },
+    {
       title: 'How to Test Debounce Timing',
       route: recipeRouterHelper.debounceRoute(),
       externalUrl:
         'https://cookbook.marmicode.io/angular/testing/how-to-test-debounce',
     },
     {
-      title: 'How to Progressively Migrate to Vitest Browser Mode',
-      route: recipeRouterHelper.vitestBrowserModeRoute(),
+      title: 'How to Skip Timer Delays',
+      route: recipeRouterHelper.skipTimerDelaysRoute(),
       externalUrl:
-        'https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode',
+        'https://cookbook.marmicode.io/angular/testing/how-to-skip-timer-delays',
     },
   ];
 }
