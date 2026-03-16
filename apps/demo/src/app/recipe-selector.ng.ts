@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { recipeRouterHelper } from './recipe.router-helper';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
