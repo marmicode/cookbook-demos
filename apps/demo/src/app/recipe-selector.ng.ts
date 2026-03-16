@@ -212,13 +212,13 @@ export class RecipeSelector {
   protected readonly recipes: CookbookRecipeInfo[] = [
     {
       title: 'How to Cook a Fake',
-      route: '/fake-it-till-you-mock-it',
+      route: recipeRouterHelper.fakeItTillYouMockItRoute(),
       externalUrl:
         'https://cookbook.marmicode.io/angular/testing/how-to-cook-a-fake',
     },
     {
       title: 'How to Progressively Migrate to Vitest Browser Mode',
-      route: '/vitest-browser-mode',
+      route: recipeRouterHelper.vitestBrowserModeRoute(),
       externalUrl:
         'https://cookbook.marmicode.io/angular/testing/how-to-migrate-to-vitest-browser-mode',
     },

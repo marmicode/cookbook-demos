@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { RecipeSelector } from './recipe-selector.ng';
+import { recipeRouterHelper } from './recipe.router-helper';
 
 export const routes: Routes = [
   {
@@ -7,11 +8,11 @@ export const routes: Routes = [
     component: RecipeSelector,
   },
   {
-    path: 'fake-it-till-you-mock-it',
+    path: recipeRouterHelper.FAKE_IT_TILL_YOU_MOCK_IT,
     loadComponent: () => import('./fake-it-till-you-mock-it'),
   },
   {
-    path: 'vitest-browser-mode',
+    path: recipeRouterHelper.VITEST_BROWSER_MODE,
     loadComponent: () => import('./vitest-browser-mode'),
   },
 ];
