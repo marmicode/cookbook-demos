@@ -16,6 +16,10 @@ export const routes: Routes = [
     loadComponent: () => import('./fake-it-till-you-mock-it'),
   },
   {
+    path: recipeRouterHelper.SKIP_TIMER_DELAYS,
+    loadComponent: () => import('./skip-timer-delays'),
+  },
+  {
     path: recipeRouterHelper.VITEST_BROWSER_MODE,
     loadComponent: () => import('./vitest-browser-mode'),
   },
